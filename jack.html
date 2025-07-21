@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Into Action Media</title>
+<style type="text/css">
+
+#topbar{
+position:absolute;
+padding: 0px;
+visibility: visible;
+z-index: 100;
+}
+
+</style>
+
+<script type="text/javascript">
+
+var persistclose=0 //set to 0 or 1. 1 means once the bar is manually closed, it will remain closed for browser session
+var startX = 1 //set x offset of bar in pixels
+var startY = 400 //set y offset of bar in pixels
+var verticalpos="fromtop" //enter "fromtop" or "frombottom"
+
+function iecompattest(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function get_cookie(Name) {
+var search = Name + "="
+var returnvalue = "";
+if (document.cookie.length > 0) {
+offset = document.cookie.indexOf(search)
+if (offset != -1) {
+offset += search.length
+end = document.cookie.indexOf(";", offset);
+if (end == -1) end = document.cookie.length;
+returnvalue=unescape(document.cookie.substring(offset, end))
+}
+}
+return returnvalue;
+}
+
+function closebar(){
+if (persistclose)
+document.cookie="remainclosed=1"
+document.getElementById("topbar").style.visibility="hidden"
+}
+
+function staticbar(){
+	barheight=document.getElementById("topbar").offsetHeight
+	var ns = (navigator.appName.indexOf("Netscape") != -1) || window.opera;
+	var d = document;
+	function ml(id){
+		var el=d.getElementById(id);
+		if (!persistclose || persistclose && get_cookie("remainclosed")=="")
+		el.style.visibility="visible"
+		if(d.layers)el.style=el;
+		el.sP=function(x,y){this.style.left=x+"px";this.style.top=y+"px";};
+		el.x = startX;
+		if (verticalpos=="fromtop")
+		el.y = startY;
+		else{
+		el.y = ns ? pageYOffset + innerHeight : iecompattest().scrollTop + iecompattest().clientHeight;
+		el.y -= startY;
+		}
+		return el;
+	}
+	window.stayTopLeft=function(){
+		if (verticalpos=="fromtop"){
+		var pY = ns ? pageYOffset : iecompattest().scrollTop;
+		ftlObj.y += (pY + startY - ftlObj.y)/8;
+		}
+		else{
+		var pY = ns ? pageYOffset + innerHeight - barheight: iecompattest().scrollTop + iecompattest().clientHeight - barheight;
+		ftlObj.y += (pY - startY - ftlObj.y)/8;
+		}
+		ftlObj.sP(ftlObj.x, ftlObj.y);
+		setTimeout("stayTopLeft()", 10);
+	}
+	ftlObj = ml("topbar");
+	stayTopLeft();
+}
+
+if (window.addEventListener)
+window.addEventListener("load", staticbar, false)
+else if (window.attachEvent)
+window.attachEvent("onload", staticbar)
+else if (document.getElementById)
+window.onload=staticbar
+</script>
+</head>
+<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" bgcolor="#666666">
+<div id="topbar"><img src="images/Portfolio-thumb.gif" border="0" usemap="#Map">
+<map name="Map">
+  <area shape="rect" coords="16,21,86,85" href="index.html">
+  <area shape="rect" coords="100,22,155,87" href="LR.html">
+  <area shape="rect" coords="168,22,224,86" href="his1040.html">
+  <area shape="rect" coords="238,22,291,86" href="cmg.html">
+  <area shape="rect" coords="306,22,367,86" href="iam.html">
+  <area shape="rect" coords="381,22,450,86" href="jack.html">
+  <area shape="rect" coords="463,21,536,86" href="nic.html">
+  <area shape="rect" coords="549,22,619,86" href="rga.html">
+  <area shape="rect" coords="632,22,688,86" href="mynew.html"></map>
+</div>
+	<table align="center" cellpadding="0" cellspacing="0" border="0" width="1000" bgcolor="#FFFFFF">
+		<tr>
+			<td valign="top" align="center"><img src="images/jack.gif" border="1"></td>
+		</tr>
+	</table>
+	
+</body>
+</html>
